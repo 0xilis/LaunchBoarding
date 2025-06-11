@@ -68,6 +68,14 @@
     [self.view.layer addSublayer:self.welcomeLayer];
 }
 
+// TODO: Terrible for performance
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    if (self.welcomeLayer) {
+        self.welcomeLayer.position = self.view.center;
+    }
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
@@ -271,7 +279,11 @@
     [super viewDidLoad];
     [self setupView];
     [self createContentViewControllers];
-    [self setupPageControl];
+    __weak __typeof(self) weakSelf = self;
+    __strong __typeof(weakSelf) strongSelf = weakSelf;
+    if (strongSelf) {
+        [strongSelf setupPageControl];
+    }
     [self setupButtons];
     
     if (self.contentViewControllers.count > 0) {
@@ -279,8 +291,11 @@
                       direction:UIPageViewControllerNavigationDirectionForward
                        animated:NO
                      completion:^(BOOL finished) {
-            self.pageControl.currentPage = 0;
-            [self updateButtonForPage:0];
+            
+            if (strongSelf) {
+                strongSelf.pageControl.currentPage = 0;
+                [strongSelf updateButtonForPage:0];
+            }
         }];
     }
 }
