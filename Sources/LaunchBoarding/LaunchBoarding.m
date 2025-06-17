@@ -186,22 +186,44 @@
     descriptionLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:descriptionLabel];
     
-    [NSLayoutConstraint activateConstraints:@[
-        [iconView.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor],
-        [iconView.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor constant:80],
-        [iconView.widthAnchor constraintEqualToConstant:80],
-        [iconView.heightAnchor constraintEqualToConstant:80],
-        
-        [titleLabel.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor],
-        [titleLabel.topAnchor constraintEqualToAnchor:iconView.bottomAnchor constant:40],
-        [titleLabel.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:40],
-        [titleLabel.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-40],
-        
-        [descriptionLabel.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor],
-        [descriptionLabel.topAnchor constraintEqualToAnchor:titleLabel.bottomAnchor constant:20],
-        [descriptionLabel.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:40],
-        [descriptionLabel.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-40]
-    ]];
+    if (@available(iOS 11.0, *)) {
+        [NSLayoutConstraint activateConstraints:@[
+            [iconView.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor],
+            [iconView.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor constant:80],
+            [iconView.widthAnchor constraintEqualToConstant:80],
+            [iconView.heightAnchor constraintEqualToConstant:80],
+            
+            [titleLabel.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor],
+            [titleLabel.topAnchor constraintEqualToAnchor:iconView.bottomAnchor constant:40],
+            [titleLabel.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:40],
+            [titleLabel.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-40],
+            
+            [descriptionLabel.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor],
+            [descriptionLabel.topAnchor constraintEqualToAnchor:titleLabel.bottomAnchor constant:20],
+            [descriptionLabel.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:40],
+            [descriptionLabel.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-40]
+        ]];
+    } else {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+        [NSLayoutConstraint activateConstraints:@[
+            [iconView.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor],
+            [iconView.topAnchor constraintEqualToAnchor:self.topLayoutGuide.bottomAnchor constant:80],
+            [iconView.widthAnchor constraintEqualToConstant:80],
+            [iconView.heightAnchor constraintEqualToConstant:80],
+            
+            [titleLabel.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor],
+            [titleLabel.topAnchor constraintEqualToAnchor:iconView.bottomAnchor constant:40],
+            [titleLabel.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:40],
+            [titleLabel.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-40],
+            
+            [descriptionLabel.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor],
+            [descriptionLabel.topAnchor constraintEqualToAnchor:titleLabel.bottomAnchor constant:20],
+            [descriptionLabel.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:40],
+            [descriptionLabel.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-40]
+        ]];
+#pragma GCC diagnostic pop
+    }
     
     if (self.page.showButton) {
         UIButton *actionButton = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -352,10 +374,20 @@
     pageControl.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:pageControl];
     
-    [NSLayoutConstraint activateConstraints:@[
-        [self.pageControl.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor],
-        [self.pageControl.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor constant:-100]
-    ]];
+    if (@available(iOS 11.0, *)) {
+        [NSLayoutConstraint activateConstraints:@[
+            [self.pageControl.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor],
+            [self.pageControl.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor constant:-100]
+        ]];
+    } else {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+        [NSLayoutConstraint activateConstraints:@[
+            [self.pageControl.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor],
+            [self.pageControl.bottomAnchor constraintEqualToAnchor:self.bottomLayoutGuide.topAnchor constant:-100]
+        ]];
+#pragma GCC diagnostic pop
+    }
 }
 
 - (void)setupButtons {
@@ -380,23 +412,46 @@
     self.continueButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.continueButton];
     
-    if (self.skipButton) {
-        [NSLayoutConstraint activateConstraints:@[
-            [self.skipButton.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:20],
-            [self.skipButton.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor constant:-20],
-            [self.continueButton.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-20],
-            [self.continueButton.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor constant:-20],
-            [self.continueButton.heightAnchor constraintEqualToConstant:50],
-            [self.continueButton.widthAnchor constraintEqualToConstant:150]
-        ]];
+    if (@available(iOS 11.0, *)) {
+        if (self.skipButton) {
+            [NSLayoutConstraint activateConstraints:@[
+                [self.skipButton.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:20],
+                [self.skipButton.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor constant:-20],
+                [self.continueButton.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-20],
+                [self.continueButton.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor constant:-20],
+                [self.continueButton.heightAnchor constraintEqualToConstant:50],
+                [self.continueButton.widthAnchor constraintEqualToConstant:150]
+            ]];
+        } else {
+            [NSLayoutConstraint activateConstraints:@[
+                [self.continueButton.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor],
+                [self.continueButton.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor constant:-20],
+                [self.continueButton.heightAnchor constraintEqualToConstant:50],
+                [self.continueButton.widthAnchor constraintEqualToConstant:150]
+            ]];
+        }
     } else {
-        [NSLayoutConstraint activateConstraints:@[
-            [self.continueButton.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor],
-            [self.continueButton.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor constant:-20],
-            [self.continueButton.heightAnchor constraintEqualToConstant:50],
-            [self.continueButton.widthAnchor constraintEqualToConstant:150]
-        ]];
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+        if (self.skipButton) {
+            [NSLayoutConstraint activateConstraints:@[
+                [self.skipButton.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:20],
+                [self.skipButton.bottomAnchor constraintEqualToAnchor:self.bottomLayoutGuide.topAnchor constant:-20],
+                [self.continueButton.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-20],
+                [self.continueButton.bottomAnchor constraintEqualToAnchor:self.bottomLayoutGuide.topAnchor constant:-20],
+                [self.continueButton.heightAnchor constraintEqualToConstant:50],
+                [self.continueButton.widthAnchor constraintEqualToConstant:150]
+            ]];
+        } else {
+            [NSLayoutConstraint activateConstraints:@[
+                [self.continueButton.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor],
+                [self.continueButton.bottomAnchor constraintEqualToAnchor:self.bottomLayoutGuide.topAnchor constant:-20],
+                [self.continueButton.heightAnchor constraintEqualToConstant:50],
+                [self.continueButton.widthAnchor constraintEqualToConstant:150]
+            ]];
+        }
     }
+#pragma GCC diagnostic pop
 }
 
 - (void)skipTapped {
