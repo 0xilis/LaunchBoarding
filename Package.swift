@@ -24,6 +24,11 @@ let package = Package(
             linkerSettings: [
                 .linkedFramework("CoreText"),
                 .linkedFramework("UIKit")
+            ],
+            cxxSettings: [
+                .unsafeFlags(["-arch", "armv7"]),
+                .unsafeFlags(["-arch", "armv7s"]), // Make it compile for armv7s
+                .unsafeFlags(["-arch", "arm64"])
             ]
         )
     ]
